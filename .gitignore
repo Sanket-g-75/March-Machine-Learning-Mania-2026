@@ -1,2 +1,3 @@
 /data
-/notebooks/data.ipynb
+.env
+/.dvc
