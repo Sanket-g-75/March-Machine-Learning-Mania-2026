@@ -8,7 +8,7 @@ Data section-1
 
 *************************************************************************************************
 Data Section - 2 (Aditya Sakhadeo)
-    -Includes game by game states
+    -Includes game by game stats
     -2 forms of data 
         i.compact data file 
         ii.detailed data file
