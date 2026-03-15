@@ -22,7 +22,7 @@ Data Section - 2 (Aditya Sakhadeo)
         M - Made
         A - Attempted
         3 - 3 pointers
-        OR - offensive rebound (When team having possession of the tries for the goal and fails but still get the possession of the ball)
+        OR - offensive rebound (When team having possession of the ball tries for the goal and fails but still get the possession of the ball)
         DR - Defensivev rebound (When team having the possession of the ball tries for the goal and fails but opposition team gets the ball)
         Ast - Assits
         TO - Turn overs (Chang of possession of the ball before attempting to score)
