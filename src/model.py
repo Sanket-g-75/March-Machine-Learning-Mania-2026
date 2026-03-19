@@ -20,6 +20,13 @@ from torch.utils.data import DataLoader
 import warnings
 warnings.filterwarnings('ignore')
 
+dir = os.getenv('DIR')
+os.getcwd()
+os.chdir(dir)
+path = os.getcwd()
+
+idx = pd.read_csv(os.path.join(path,'data','processed','Team_IDs.csv'))
+team_ids = idx.values.ravel().tolist()
 
 
 # Get the team dataset
@@ -33,7 +40,7 @@ class TeamDataset(Dataset):
     def __getitem__(self, idx):
         return self.data[idx]
     
-
+# Team Encoder
 class TeamEncoder(nn.Module):
     def __init__(self, input_dim, d_model=128, n_heads=4, n_layers=2):
         super().__init__()
@@ -81,6 +88,7 @@ class TeamEncoder(nn.Module):
         return recon, cls_out
     
 
+# Training Loop for the Encoder
 def train_encoder(model, dataloader, epochs=20, lr=1e-3):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
@@ -107,8 +115,7 @@ def train_encoder(model, dataloader, epochs=20, lr=1e-3):
         print(f"Epoch {epoch+1}, Loss: {total_loss:.4f}")
 
 
-
-
+# Match Predictor using Encodings
 class MatchPredictor(nn.Module):
     def __init__(self, encoder, d_model):
         super().__init__()
@@ -136,9 +143,7 @@ class MatchPredictor(nn.Module):
     
 
 
-
-
-
+# Match Pytorch Dataset
 class MatchDatasetEmb(Dataset):
     def __init__(self, match_data, embedding_matrix):
         """
@@ -167,6 +172,7 @@ class MatchDatasetEmb(Dataset):
         return zA, zB, torch.tensor(label, dtype=torch.float32)
     
 
+# Match predictor using Embeddings
 class MatchPredictorEmb(nn.Module):
     def __init__(self, d_model):
         super().__init__()
@@ -216,6 +222,7 @@ def train_classifier(model, dataloader, epochs=10, lr=1e-3):
         print(f"Epoch {epoch+1}/{epochs} | Loss: {total_loss/len(dataloader):.4f}")
 
 
+# Predictor
 def predict(model, teamA_id, teamB_id, embedding_matrix):
     device = next(model.parameters()).device
 
@@ -232,3 +239,5 @@ def predict(model, teamA_id, teamB_id, embedding_matrix):
         prob = torch.sigmoid(logits)
 
     return prob.item()
+
+
